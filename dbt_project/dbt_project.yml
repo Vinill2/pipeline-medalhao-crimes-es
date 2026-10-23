@@ -1,0 +1,16 @@
+name: crime_dw
+version: "1.0.0"
+config-version: 2
+profile: crime_dw
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  crime_dw:
+    silver:
+      +materialized: table
+    gold:
+      +materialized: table

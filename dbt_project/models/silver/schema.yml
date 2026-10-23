@@ -1,0 +1,37 @@
+version: 2
+
+# Testes de qualidade da entrega final da Silver. Rodar com:
+#   cd dbt_project && dbt test --profiles-dir .
+models:
+  - name: slv_ocorrencias
+    columns:
+      - name: no_ocorrencia
+        description: Numero da ocorrencia (chave da tabela, ja deduplicado).
+        tests:
+          - unique
+          - not_null
+
+      - name: data_do_fato
+        description: Data do fato. Vazio/NULL e aceito; texto que nao seja data nao.
+        tests:
+          - is_date_or_null
+
+      - name: data_de_criacao
+        description: Data de criacao do boletim. Vazio/NULL e aceito; texto que nao seja data nao.
+        tests:
+          - is_date_or_null
+
+      - name: hora_do_fato
+        description: Hora do fato (HH:MM:SS). Vazio/NULL e aceito; texto que nao seja hora nao.
+        tests:
+          - is_time_or_null
+
+      - name: hora_de_criacao
+        description: Hora de criacao do boletim (HH:MM:SS). Vazio/NULL e aceito; texto que nao seja hora nao.
+        tests:
+          - is_time_or_null
+
+      - name: idade
+        description: Idade em anos. NULL/vazio e aceito; se preenchida, somente numeros.
+        tests:
+          - is_integer_or_null

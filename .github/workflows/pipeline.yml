@@ -1,0 +1,54 @@
+name: Pipeline Crimes ES
+
+on:
+  workflow_dispatch:            # botao "Run workflow" na aba Actions
+    inputs:
+      force:
+        description: "Reprocessar tudo (--force), mesmo sem novidades no site"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "0 6 * * *"         # todo dia as 06:00 UTC (03:00 em Brasilia)
+
+# necessario para o ultimo passo conseguir dar push do config/sources.json
+permissions:
+  contents: write
+
+# nunca deixa duas execucoes rodarem ao mesmo tempo (ex: cron + manual)
+concurrency:
+  group: pipeline-crimes-es
+  cancel-in-progress: false
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+    steps:
+      - name: Baixar o codigo do repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      # bronze -> silver -> DuckDB -> dbt run -> dbt test -> export (para sozinho se nao ha novidade)
+      - name: Rodar pipeline
+        run: python -m src.pipeline ${{ inputs.force && '--force' || '' }}
+
+      # roda mesmo se o pipeline falhou depois do sync: o manifesto reflete o que ja foi
+      # baixado pro bronze, e salvar evita baixar tudo de novo na proxima execucao
+      - name: Commitar atualizacao do manifesto
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add config/sources.json
+          git diff --staged --quiet || git commit -m "chore: atualiza datas do manifesto [skip ci]"
+          git push

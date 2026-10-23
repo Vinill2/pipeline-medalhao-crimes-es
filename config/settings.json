@@ -1,0 +1,59 @@
+{
+  "paths": {
+    "manifest": "config/sources.json",
+    "work_directory": "data/work",
+    "warehouse_file": "data/work/warehouse.duckdb"
+  },
+  "azure": {
+    "connection_string_env_var": "AZURE_STORAGE_CONNECTION_STRING",
+    "bronze_container": "crimes-cmd-bronze",
+    "silver_container": "crimes-cmd-silver",
+    "gold_container": "crimes-cmd-gold",
+    "silver_staging_prefix": "stg",
+    "reference_blob_name": "ref_fonte.parquet",
+    "silver_final_blob_name": "slv_ocorrencias.parquet"
+  },
+  "download": {
+    "timeout_seconds": 600,
+    "chunk_size_bytes": 1048576,
+    "user_agent": "Mozilla/5.0 (crime-pipeline)"
+  },
+  "csv": {
+    "candidate_encodings": ["utf-8-sig", "utf-8", "cp1252", "latin-1"],
+    "candidate_separators": [";", ",", "\t", "|"]
+  },
+  "silver": {
+    "load_date_column": "data_carga",
+    "table_name_column": "nome_tabela",
+    "dimension_columns": [
+      "tipo_de_boletim", "agencia", "unidade", "unidade_origem_pc",
+      "uf", "municipio", "bairro", "logradouro",
+      "tipo_de_local", "tipo_local",
+      "cor", "cutis", "sexo", "genero",
+      "meios", "orientacao_sexual", "tipo_objeto", "acao_objeto",
+      "tipo", "marca", "modelo", "cor_veiculo", "utilidade_do_veiculo",
+      "tipo_de_incidente", "grupo_de_incidente"
+    ],
+    "sentinel_values": [
+      "S/I",
+      "INDETERMINADO", "INDETERMINDADO", "INDETERMINADA",
+      "NAO INFORMADO", "NÃO INFORMADO",
+      "PREJUDICADO",
+      "IGNORADO / NAO INFORMADO", "IGNORADO / NÃO INFORMADO"
+    ]
+  },
+  "gold": {
+    "dimension_tables": [
+      "dim_tipo_de_boletim", "dim_agencia", "dim_unidade", "dim_unidade_origem_pc",
+      "dim_uf", "dim_municipio", "dim_bairro", "dim_logradouro", "dim_tipo_de_local",
+      "dim_cor", "dim_meios", "dim_sexo", "dim_orientacao_sexual", "dim_tipo_objeto",
+      "dim_acao_objeto", "dim_tipo", "dim_marca", "dim_modelo", "dim_cor_veiculo",
+      "dim_utilidade_do_veiculo", "dim_tipo_crime", "dim_incidente"
+    ],
+    "fact_table": "fct_ocorrencias"
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s | %(levelname)s | %(message)s"
+  }
+}

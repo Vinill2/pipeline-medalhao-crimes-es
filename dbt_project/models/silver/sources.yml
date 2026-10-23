@@ -1,0 +1,28 @@
+version: 2
+
+# Estas tabelas sao criadas pelo Python (src/load_silver_staging.py), ja com
+# colunas padronizadas e tipos inferidos pelo pandas. O dbt as trata como fonte,
+# nao as recria -- a etapa 1 da Silver acontece fora do dbt.
+sources:
+  - name: silver_raw
+    schema: main
+    tables:
+      - name: ref_fonte
+      - name: stg_homicidio_feminicidio
+      - name: stg_violencia_domestica
+      - name: stg_crime_informatico
+      - name: stg_estelionato_fraude
+      - name: stg_roubo_celular
+      - name: stg_roubo_bicicleta
+      - name: stg_roubo_veiculo
+      - name: stg_furto_celular
+      - name: stg_furto_bicicleta
+      - name: stg_furto_veiculo
+      - name: stg_roubo_transporte_coletivo
+      - name: stg_roubo_residencia
+      - name: stg_roubo_comercio
+      - name: stg_roubo_pessoa
+      - name: stg_furto_residencia
+      - name: stg_furto_transporte_coletivo
+      - name: stg_furto_comercio
+      - name: stg_furto_pessoa

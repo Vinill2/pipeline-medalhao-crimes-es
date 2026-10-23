@@ -1,0 +1,10 @@
+pandas
+pyarrow
+requests
+beautifulsoup4
+setuptools
+duckdb
+dbt-core==1.7.*
+dbt-duckdb
+azure-storage-blob
+python-dotenv

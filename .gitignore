@@ -1,0 +1,23 @@
+# ambiente e credenciais -- NUNCA devem ir pro GitHub
+.venv/
+.env
+
+# dados e arquivos temporarios gerados na execucao
+data/work/
+*.duckdb
+__pycache__/
+*.pyc
+dbt_project/target/
+dbt_project/logs/
+dbt_project/.user.yml
+
+# sobras de testes locais
+config/sources.backup.json
+test_download.py
+test_violencia.csv
+
+# lixo de sistema/editor
+.DS_Store
+Thumbs.db
+*.db
+*.csv

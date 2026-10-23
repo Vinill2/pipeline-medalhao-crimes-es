@@ -1,0 +1,182 @@
+[
+  {
+    "nome_tabela": "homicidio_feminicidio",
+    "titulo": "HOMICÍDIOS E FEMINICÍDIOS",
+    "descricao": "Ocorrências versando sobre crimes de Homicídios e Feminicídios, com dados a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/f605a946-7b4a-444a-a8e7-e156bc9e791a/resource/2580653b-0a6b-4fba-b813-c849830d8993/download/homicidios-e-feminicidios.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:54:53",
+    "data_atualizacao_sistema": "2026-10-20T19:21:47",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/homicido-feminicidio"
+  },
+  {
+    "nome_tabela": "violencia_domestica",
+    "titulo": "VIOLÊNCIA DOMÉSTICA",
+    "descricao": "Ocorrências versando sobre crimes nos Termos da Lei Maria da Penha, considerando registros por vítimas. Dados a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/96cedd83-994e-4188-8aa2-1f75fb8ce18d/resource/6f81a412-5022-49a3-b2a2-111ed19ab5e4/download/violencia-domestica.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:54:09",
+    "data_atualizacao_sistema": "2026-10-22T09:16:22",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/violencia-domestica"
+  },
+  {
+    "nome_tabela": "crime_informatico",
+    "titulo": "CRIMES INFORMÁTICOS",
+    "descricao": "Ocorrências versando sobre crimes informáticos, registradas a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/01d83ed3-f496-4fcf-9bb7-af820a208c96/resource/cf9aea67-344d-421f-aaa0-2ff9eb6f4275/download/crimes-informaticos.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:51:17",
+    "data_atualizacao_sistema": "2026-10-20T19:24:14",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/crimes-informaticos"
+  },
+  {
+    "nome_tabela": "estelionato_fraude",
+    "titulo": "ESTELIONATO E FRAUDE",
+    "descricao": "Ocorrências sobre Estelionato/Fraude registradas a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/a745414a-1a10-4e87-be54-ad6410bd3332/resource/fe5d0bac-8c87-4fee-a711-7f29bab13847/download/estelionato-e-fraude.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:50:45",
+    "data_atualizacao_sistema": "2026-10-20T19:25:35",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/estelionato-fraude"
+  },
+  {
+    "nome_tabela": "roubo_celular",
+    "titulo": "ROUBO DE CELULAR",
+    "descricao": "Quantidade de objetos do tipo Celular, registrados em boletins de ocorrências na condição de roubados. Dados a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/356fa62d-7aa9-49a4-bc3c-62d46f078f92/resource/1625ba2d-8020-4d65-b982-a28c65806e18/download/roubo-celular.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:43:41",
+    "data_atualizacao_sistema": "2026-10-20T19:26:52",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/roubo-celular"
+  },
+  {
+    "nome_tabela": "roubo_bicicleta",
+    "titulo": "ROUBO DE BICICLETA",
+    "descricao": "Quantidade de objetos do tipo Bicicleta, registrados em boletins de ocorrências na condição de roubados. Dados a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/26a903ce-3986-4aba-bc34-91ef7cfbe49f/resource/fdb3d4d2-5102-4dc4-b60a-dcd5fddd6752/download/roubo-de-bicicleta.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:40:23",
+    "data_atualizacao_sistema": "2026-10-20T19:27:58",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/roubo-bicicleta"
+  },
+  {
+    "nome_tabela": "roubo_veiculo",
+    "titulo": "ROUBO DE VEÍCULO",
+    "descricao": "Quantidade de objetos do tipo Veículo, registrados em boletins de ocorrências na condição de roubados. Dados a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/d3f44a72-d901-4f80-820e-56f47aaa474e/resource/1e1e7861-c433-4e86-9e18-64250776b22b/download/roubo-de-veiculo.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:37:31",
+    "data_atualizacao_sistema": "2026-10-20T19:29:05",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/roubo-veiculo"
+  },
+  {
+    "nome_tabela": "furto_celular",
+    "titulo": "FURTO DE CELULAR",
+    "descricao": "Quantidade de objetos do tipo Celular, registrados em boletins de ocorrências na condição de furtados. Dados a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/7a537699-e6ea-4356-9e04-7b7aff75823b/resource/6727b51d-9a68-4a65-9973-4051e0c82d0e/download/furto-celular.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:34:55",
+    "data_atualizacao_sistema": "2026-10-20T19:30:21",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/furto-celular"
+  },
+  {
+    "nome_tabela": "furto_bicicleta",
+    "titulo": "FURTO DE BICICLETA",
+    "descricao": "Quantidade de objetos do tipo bicicleta, registrados em boletins de ocorrências na condição de furtados. Dados a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/e0b8d3b2-4aec-4e2b-8d79-eaaf5c6e7eeb/resource/51853e38-0317-41ef-b8b7-2c86afc35b2d/download/furto-de-bicicleta.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:32:04",
+    "data_atualizacao_sistema": "2026-10-20T19:31:29",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/furto-bicicleta"
+  },
+  {
+    "nome_tabela": "furto_veiculo",
+    "titulo": "FURTO DE VEÍCULO",
+    "descricao": "Quantidade de objetos do tipo Veículo, registrados em boletins de ocorrências na condição de furtados. Dados a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/90a09849-bcd9-4799-b819-9c9c606170aa/resource/4680570b-63f9-4fb3-92a6-3097d4fd3a1a/download/furto-de-veiculo.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:30:11",
+    "data_atualizacao_sistema": "2026-10-20T19:32:37",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/furto-veiculo"
+  },
+  {
+    "nome_tabela": "roubo_transporte_coletivo",
+    "titulo": "ROUBO EM TRANSPORTE COLETIVO",
+    "descricao": "Ocorrências de Roubos em Transporte Coletivo registradas a partir de 2023",
+    "link": "https://dados.es.gov.br/dataset/b9cd82be-28e9-4a6e-b4e4-3cc3b53514f9/resource/5981490a-4822-4a70-99cd-29e751cf766e/download/roubo-em-transporte-coletivo.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:26:47",
+    "data_atualizacao_sistema": "2026-10-20T19:33:45",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/roubo-em-transporte-coletivo"
+  },
+  {
+    "nome_tabela": "roubo_residencia",
+    "titulo": "ROUBO EM RESIDÊNCIA",
+    "descricao": "Ocorrências de Roubos em Residências registradas a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/8bd963a0-af32-4952-a300-edc49c76a9b8/resource/3206f9ee-90cc-463c-a942-8182a5d82575/download/roubo-em-residencia.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:23:58",
+    "data_atualizacao_sistema": "2026-10-20T19:34:51",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/roubo-em-residecia"
+  },
+  {
+    "nome_tabela": "roubo_comercio",
+    "titulo": "ROUBO EM COMERCIO",
+    "descricao": "Ocorrências de Roubos em Comércio registradas a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/acbfbe21-54f6-45ff-a0a6-24f18ab5efff/resource/60158904-cccf-47ce-ae84-ea0c8813908a/download/roubo-em-comercio.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:23:53",
+    "data_atualizacao_sistema": "2026-10-20T19:35:57",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/roubo-em-comercio"
+  },
+  {
+    "nome_tabela": "roubo_pessoa",
+    "titulo": "ROUBO A PESSOA",
+    "descricao": "Ocorrências sobre roubo a pessoa registradas a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/9815cc60-37c1-49c7-8be0-d72f54a456e6/resource/c16c37b7-6b3e-4bd0-8462-eb39a4a0f24a/download/roubo-a-pessoa.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:23:03",
+    "data_atualizacao_sistema": "2026-10-20T19:37:14",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/roubo-a-pessoa"
+  },
+  {
+    "nome_tabela": "furto_residencia",
+    "titulo": "FURTO EM RESIDENCIA",
+    "descricao": "Ocorrências de furtos em residências registradas a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/e6a94e40-56a8-4144-8958-c7bf80280e04/resource/cc8f9489-45e3-4e78-9d77-ffe211449eef/download/furto-em-residencia.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:21:34",
+    "data_atualizacao_sistema": "2026-10-20T19:38:24",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/furto-em-residencia"
+  },
+  {
+    "nome_tabela": "furto_transporte_coletivo",
+    "titulo": "FURTO EM TRANSPORTE COLETIVO",
+    "descricao": "Ocorrências de Furto em Transporte Coletivo registradas a partir de 2023",
+    "link": "https://dados.es.gov.br/dataset/cb53952c-220f-402e-a817-36ec3bec0d62/resource/ded9feb4-be0e-48b8-bd94-e7a4946c5575/download/furto-em-transporte-coletivo.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:09:17",
+    "data_atualizacao_sistema": "2026-10-20T19:39:32",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/furto-em-transporte-coletivo"
+  },
+  {
+    "nome_tabela": "furto_comercio",
+    "titulo": "FURTO EM COMÉRCIO",
+    "descricao": "Ocorrências sobre furto em estabelecimento comercial registradas a partir de 2023",
+    "link": "https://dados.es.gov.br/dataset/5385de3b-8751-44d9-a0ff-358b1991498d/resource/2c0d3005-140e-40e7-86b0-86db7c4a62fd/download/furto-em-comercio.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:05:19",
+    "data_atualizacao_sistema": "2026-10-20T19:40:43",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/furto-em-comercio"
+  },
+  {
+    "nome_tabela": "furto_pessoa",
+    "titulo": "FURTO A PESSOA",
+    "descricao": "Ocorrências sobre furto a pessoa registradas a partir de 2023.",
+    "link": "https://dados.es.gov.br/dataset/3db3a4ae-9378-429c-8e7d-3a748984683a/resource/d2e8486f-f31b-4ac3-aaab-1fd14dc49fd1/download/furto-a-pessoa.csv",
+    "data_ultima_atualizacao_site": "2026-05-26T19:01:41",
+    "data_atualizacao_sistema": "2026-10-20T19:41:52",
+    "tipo_arquivo": "CSV",
+    "pagina_dataset": "https://dados.es.gov.br/dataset/furto-a-pessoa"
+  }
+]
