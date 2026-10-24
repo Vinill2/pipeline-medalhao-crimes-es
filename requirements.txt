@@ -2,7 +2,7 @@
 # troque a versao aqui, rode `python -m pytest` e so entao suba a mudanca.
 pandas==3.0.2
 pyarrow==26.0.0
-requests==2.33.1
+requests==2.34.2
 beautifulsoup4==4.14.3
 setuptools==68.1.2
 duckdb==2.0.0
