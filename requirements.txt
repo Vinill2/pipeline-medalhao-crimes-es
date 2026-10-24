@@ -1,10 +1,12 @@
-pandas
-pyarrow
-requests
-beautifulsoup4
-setuptools
-duckdb
-dbt-core==1.7.*
-dbt-duckdb
-azure-storage-blob
-python-dotenv
+# Versoes fixadas (as mesmas validadas nos testes). Para atualizar uma biblioteca,
+# troque a versao aqui, rode `python -m pytest` e so entao suba a mudanca.
+pandas==3.0.2
+pyarrow==26.0.0
+requests==2.33.1
+beautifulsoup4==4.14.3
+setuptools==68.1.2
+duckdb==2.0.0
+dbt-core==1.7.20
+dbt-duckdb==1.7.5
+azure-storage-blob==12.31.0
+python-dotenv==1.2.2

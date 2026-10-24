@@ -1,5 +1,9 @@
 # Pipeline de Criminalidade -- Azure Blob Storage + DuckDB + dbt
 
+[![CI](https://github.com/Vinill2/pipeline-medalhao-crimes-es/actions/workflows/ci.yml/badge.svg)](https://github.com/Vinill2/pipeline-medalhao-crimes-es/actions/workflows/ci.yml) [![Pipeline](https://github.com/Vinill2/pipeline-medalhao-crimes-es/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Vinill2/pipeline-medalhao-crimes-es/actions/workflows/pipeline.yml)
+
+**Site publicado:** dashboard e dicionario de dados em https://vinill2.github.io/pipeline-medalhao-crimes-es/
+
 Pipeline medalhao (bronze -> silver -> gold) com os dados abertos de criminalidade do
 Espirito Santo (`dados.es.gov.br`). Armazenamento em Azure Blob Storage, transformacao
 com dbt sobre DuckDB local, orquestracao via GitHub Actions.
@@ -127,26 +131,42 @@ Cada entrada de `config/sources.json` tem o campo `pagina_dataset` (a pagina do
 dataset em `dados.es.gov.br/dataset/<slug>`). A cada `sync_raw_files`, para cada dataset:
 
 1. O pipeline le a **"Ultima Atualizacao" que esta no site agora** (raspagem da pagina).
-2. Compara com `data_ultima_atualizacao_site` do JSON, que guarda a data do site da
-   **ultima sincronizacao bem-sucedida**.
+2. Compara com `data_ultima_atualizacao_site`, que guarda a data do site da
+   **ultima sincronizacao bem-sucedida** (ver "Onde fica o estado" abaixo).
 3. Decide:
 
 | Situacao | Acao |
 |---|---|
 | Arquivo nao existe no `bronze` | baixa |
-| Data do site **diferente** da salva no JSON | baixa |
+| Data do site **diferente** da salva | baixa |
 | Data do site igual a salva | pula |
 | Nao foi possivel ler a data do site (pagina fora do ar, layout mudou) e o arquivo ja existe | pula e avisa no log |
 
 O criterio e a data do **site**, nao o relogio da maquina que roda o pipeline (isso
 evita erro de fuso entre o seu PC e o runner do GitHub, que roda em UTC).
 
-A data so e gravada no JSON **depois** do upload ter dado certo, e o JSON e salvo a
-cada dataset concluido. Se um download falhar no meio (timeout, etc.), o que ja
-subiu nao e baixado de novo na proxima execucao, e o que falhou e tentado novamente.
+A data so e gravada **depois** do upload ter dado certo, e e salva a cada dataset
+concluido. Se um download falhar no meio (timeout, etc.), o que ja subiu nao e baixado de
+novo na proxima execucao, e o que falhou e tentado novamente.
 
-`data_atualizacao_sistema` continua sendo gravada (quando o pipeline sincronizou),
-mas agora e so informativa, nao entra mais na decisao.
+`data_atualizacao_sistema` continua sendo gravada (quando o pipeline sincronizou), mas e so
+informativa, nao entra na decisao.
+
+### Onde fica o estado (e por que nao e no Git)
+
+- `config/sources.json` (no repositorio) e so **configuracao**: nome, titulo, link, pagina.
+  O pipeline nunca o reescreve.
+- O **estado** (`data_ultima_atualizacao_site`, `data_atualizacao_sistema`) fica no Azure, no
+  blob `_state/manifest_state.json` do container bronze. Na primeira execucao, vale o valor
+  inicial que estiver no `sources.json`.
+
+Motivo: o `GITHUB_TOKEN` do Actions nao consegue driblar a protecao do ramo `main`. Se o
+pipeline commitasse o manifesto, proteger o `main` o quebraria. Com o estado no Azure, o robo
+nao commita nada, o PC e o GitHub compartilham o mesmo estado, e nao existe mais conflito de
+`git pull` no `sources.json`.
+
+Para adicionar um dataset: inclua a entrada no `sources.json` (sem datas) e abra um PR; ele e
+baixado na proxima execucao.
 
 ## Logs
 
@@ -192,19 +212,57 @@ data, hora e idade, um valor invalido na origem **nao e detectado** aqui (ja vir
 antes do teste). Esses testes garantem o contrato da coluna final: nada alem de valor
 valido ou vazio sai da Silver.
 
-## GitHub Actions
+## Testes automatizados
 
-O workflow em `.github/workflows/pipeline.yml` roda os passos (hoje separados, ver Pendencias), agendado (cron)
-ou manual (`workflow_dispatch`). Precisa do Secret `AZURE_STORAGE_CONNECTION_STRING`.
-O ultimo passo faz `git push` do `config/sources.json` atualizado, entao o workflow
-precisa de `permissions: contents: write`.
+```bash
+pip install -r requirements-dev.txt
+python -m pytest                       # tudo (~1 min)
+python -m pytest -m "not integration"  # so os rapidos (~1 s), sem rodar o dbt
+```
 
-O workflow ainda **nao** usa `python -m src.pipeline` nem roda o `dbt test`; ver "Pendencias".
+| Arquivo | O que garante |
+|---|---|
+| `test_columns.py`, `test_reader.py` | normalizacao de colunas (`Nº` vs `N°`), detecao de encoding/separador, limpeza de valores |
+| `test_site_date_scraper.py` | leitura da data na pagina do site, com e sem o campo |
+| `test_manifest.py` | decisao por data do site; estado no Azure nunca reescreve o `sources.json` |
+| `test_sync.py` | baixa so o que mudou; progresso sobrevive a uma falha no meio |
+| `test_freshness_and_load.py`, `test_pipeline_flow.py` | pula o que esta em dia, `--force`, para sem novidade, se recupera de execucao interrompida, falha bloqueia o export |
+| `test_dbt_models.py` (integracao) | roda o **dbt de verdade** sobre dados ficticios: 26 modelos, testes de qualidade passam em dado limpo e **falham** em dado ruim, e **ids das dimensoes nao mudam** entre execucoes |
+| `test_dashboard.py`, `test_build_site.py` | agregados do dashboard fecham com o total, o HTML nao vaza dado individual nem aceita injecao, o dbt docs e gerado |
+
+Os testes nao usam Azure nem segredos. Para nao tocar no seu warehouse real, o dbt le o
+caminho do banco da variavel `DUCKDB_PATH` (padrao: `data/work/warehouse.duckdb`).
+
+## CI/CD
+
+| Workflow | Quando roda | O que faz |
+|---|---|---|
+| `ci.yml` | a cada Pull Request e push no `main` | instala as dependencias fixadas e roda o `pytest` completo |
+| `pipeline.yml` | todo dia 06:00 UTC ou manual (com opcao `force`) | roda `python -m src.pipeline` no Azure; avisa no Discord se falhar |
+| `pages.yml` | apos o pipeline dar certo, ao mudar dbt/dashboard, ou manual | gera o site (dashboard + dbt docs) e publica no GitHub Pages |
+| `dependabot.yml` | semanal | abre PR quando sai versao nova de uma dependencia ou action; o CI valida |
+
+- **Versoes fixadas** em `requirements.txt` (reprodutivel); `requirements-dev.txt` acrescenta o pytest.
+- **Protecao do `main`** (configurada no GitHub, nao no codigo): so entra codigo via Pull Request
+  com o check `tests` do CI aprovado.
+- O pipeline de producao tem so permissao de leitura no repositorio e nao faz commit.
+
+## Site publicado
+
+- **Dashboard** (`src/dashboard.py`): le so **agregados** da gold (por mes, municipio, tipo de crime,
+  hora, dia da semana, faixa etaria, sexo). Nenhum numero de ocorrencia, logradouro ou bairro e publicado.
+  HTML unico, sem bibliotecas externas.
+- **Dicionario de dados e linhagem** (`dbt docs`): gerado a partir das descricoes dos
+  `schema.yml`, sobre um warehouse ficticio (so a estrutura importa).
+- Para ver localmente: `python -m src.build_site --skip-dashboard` (so o dbt docs, sem Azure) ou
+  `python -m src.dashboard --output site/index.html --gold-dir PASTA_COM_PARQUETS`.
 
 ## Pendencias
 
-- Trocar os passos separados do workflow por `python -m src.pipeline` (ja inclui `dbt test` antes do export).
-- Testes automatizados em Python (`pytest`) e workflow de CI separado, a cada Pull Request.
+- Atualizar o dbt: a linha 1.7 (`dbt-core`/`dbt-duckdb`) nao recebe mais patches regulares; o Dependabot
+  vai propor a subida e o CI mostra se algo quebra.
+- Nota: das 22 `dim_*`, 21 sao incrementais; `dim_incidente` e reconstruida a cada execucao
+  (os codigos vem da origem, entao nao ha id proprio para proteger).
 
 ## Removido na migracao
 

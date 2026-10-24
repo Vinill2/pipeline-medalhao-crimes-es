@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # mantem as actions dos workflows atualizadas
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # como as versoes do requirements.txt estao fixadas, o Dependabot abre um PR quando sai
+  # versao nova; o CI roda os testes nele e voce so aprova se passar
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      dbt:                      # dbt-core e dbt-duckdb precisam subir juntos
+        patterns: ["dbt-*"]

@@ -2,11 +2,18 @@
 .venv/
 .env
 
-# dados e arquivos temporarios gerados na execucao
+# dados e arquivos temporarios gerados na execucao (nada de dado pesado no Git!)
 data/work/
+*.db
 *.duckdb
+*.csv
+*.parquet
+site/
+
+# cache e saidas de ferramentas
 __pycache__/
 *.pyc
+.pytest_cache/
 dbt_project/target/
 dbt_project/logs/
 dbt_project/.user.yml
@@ -14,10 +21,7 @@ dbt_project/.user.yml
 # sobras de testes locais
 config/sources.backup.json
 test_download.py
-test_violencia.csv
 
 # lixo de sistema/editor
 .DS_Store
 Thumbs.db
-*.db
-*.csv

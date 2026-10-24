@@ -1,0 +1,72 @@
+name: Publicar site
+
+# Publica no GitHub Pages: dashboard (index.html) + dicionario de dados/linhagem (docs/).
+# Roda quando o pipeline termina com sucesso, quando o modelo dbt ou o dashboard mudam,
+# ou manualmente.
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Pipeline Crimes ES"]
+    types: [completed]
+    branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - "dbt_project/**"
+      - "src/dashboard.py"
+      - "src/build_site.py"
+      - "src/synthetic_warehouse.py"
+      - ".github/workflows/pages.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    # se o pipeline falhou, nao publica nada (o site anterior continua no ar)
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v6
+
+      - name: Instalar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      # dbt docs (warehouse ficticio) + dashboard (agregados da gold no Azure)
+      - name: Gerar o site
+        run: python -m src.build_site
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v6
+
+      - name: Empacotar o site
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v5
