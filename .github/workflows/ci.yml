@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Baixar o codigo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Instalar Python
         uses: actions/setup-python@v6
