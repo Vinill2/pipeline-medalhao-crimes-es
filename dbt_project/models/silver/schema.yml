@@ -3,7 +3,21 @@ version: 2
 # Testes de qualidade da entrega final da Silver. Rodar com:
 #   cd dbt_project && dbt test --profiles-dir .
 models:
+  - name: int_ocorrencias_unificado
+    description: >
+      Uniao (por nome de coluna) das 18 tabelas stg_* de origem. Colunas que existem so em
+      alguns datasets ficam vazias nos demais. Tabela intermediaria, nao e consumida diretamente.
+
+  - name: int_ocorrencias_dedup
+    description: >
+      Remove ocorrencias repetidas (mesmo no_ocorrencia) mantendo a linha de carga mais recente
+      e descartando linhas sem no_ocorrencia. Tabela intermediaria.
+
   - name: slv_ocorrencias
+    description: >
+      Entrega final da Silver: uma linha por ocorrencia, com datas, horas e idade tipadas, colunas
+      sinonimas fundidas (cutis->cor, genero->sexo, tipo_local->tipo_de_local) e o tipo de crime
+      vindo do titulo do dataset de origem.
     columns:
       - name: no_ocorrencia
         description: Numero da ocorrencia (chave da tabela, ja deduplicado).
@@ -35,3 +49,14 @@ models:
         description: Idade em anos. NULL/vazio e aceito; se preenchida, somente numeros.
         tests:
           - is_integer_or_null
+
+      - {name: cor, description: "Cor/raca da vitima (fusao de cor e cutis)"}
+      - {name: sexo, description: "Sexo da vitima (fusao de sexo e genero)"}
+      - {name: tipo_de_local, description: "Tipo de local do fato (fusao de tipo_de_local e tipo_local)"}
+      - {name: tipo_crime, description: "Categoria do crime, vinda do titulo do dataset de origem"}
+      - {name: municipio, description: "Municipio do fato (maiusculo, sem acento)"}
+      - {name: bairro, description: "Bairro do fato"}
+      - {name: logradouro, description: "Logradouro do fato"}
+      - {name: cod_incidente, description: "Codigo do incidente (vem da origem)"}
+      - {name: cod_grupo_incidente, description: "Codigo do grupo do incidente (vem da origem)"}
+      - {name: data_carga, description: "Quando o dado foi carregado no silver (ISO 8601)"}

@@ -1,0 +1,196 @@
+version: 2
+
+# Dicionario de dados da camada Gold. Sem testes aqui de proposito: a regra do projeto e que
+# apenas no_ocorrencia (na Silver) precisa ser unico e preenchido.
+models:
+  - name: fct_ocorrencias
+    description: >
+      Tabela fato: uma linha por ocorrencia. As colunas de texto das dimensoes foram trocadas
+      pelos ids numericos (*_id) das tabelas dim_*; datas, horas, idade e codigos passam direto.
+    columns:
+      - {name: no_ocorrencia, description: Numero da ocorrencia (chave da fato)}
+      - {name: data_do_fato, description: Data em que o fato ocorreu}
+      - {name: data_de_criacao, description: Data de criacao do boletim}
+      - {name: hora_do_fato, description: Hora do fato (HH:MM:SS) ou vazio}
+      - {name: hora_de_criacao, description: Hora de criacao do boletim (HH:MM:SS) ou vazio}
+      - {name: idade, description: Idade em anos (vazio quando a origem nao informa)}
+      - {name: cod_incidente, description: Codigo do incidente, chave para dim_incidente}
+      - {name: cod_grupo_incidente, description: Codigo do grupo do incidente}
+      - {name: data_carga, description: Quando o dado foi carregado no silver (ISO 8601)}
+      - {name: tipo_de_boletim_id, description: "Chave estrangeira para dim_tipo_de_boletim"}
+      - {name: agencia_id, description: "Chave estrangeira para dim_agencia"}
+      - {name: unidade_id, description: "Chave estrangeira para dim_unidade"}
+      - {name: unidade_origem_pc_id, description: "Chave estrangeira para dim_unidade_origem_pc"}
+      - {name: uf_id, description: "Chave estrangeira para dim_uf"}
+      - {name: municipio_id, description: "Chave estrangeira para dim_municipio"}
+      - {name: bairro_id, description: "Chave estrangeira para dim_bairro"}
+      - {name: logradouro_id, description: "Chave estrangeira para dim_logradouro"}
+      - {name: tipo_de_local_id, description: "Chave estrangeira para dim_tipo_de_local"}
+      - {name: cor_id, description: "Chave estrangeira para dim_cor"}
+      - {name: meios_id, description: "Chave estrangeira para dim_meios"}
+      - {name: sexo_id, description: "Chave estrangeira para dim_sexo"}
+      - {name: orientacao_sexual_id, description: "Chave estrangeira para dim_orientacao_sexual"}
+      - {name: tipo_objeto_id, description: "Chave estrangeira para dim_tipo_objeto"}
+      - {name: acao_objeto_id, description: "Chave estrangeira para dim_acao_objeto"}
+      - {name: tipo_id, description: "Chave estrangeira para dim_tipo"}
+      - {name: marca_id, description: "Chave estrangeira para dim_marca"}
+      - {name: modelo_id, description: "Chave estrangeira para dim_modelo"}
+      - {name: cor_veiculo_id, description: "Chave estrangeira para dim_cor_veiculo"}
+      - {name: utilidade_do_veiculo_id, description: "Chave estrangeira para dim_utilidade_do_veiculo"}
+      - {name: tipo_crime_id, description: "Chave estrangeira para dim_tipo_crime"}
+  - name: dim_tipo_de_boletim
+    description: >
+      Dimensao de tipo de boletim de ocorrencia. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: tipo_de_boletim_id, description: Id sequencial estavel (chave substituta)}
+      - {name: tipo_de_boletim, description: "Valor em texto (tipo de boletim de ocorrencia), maiusculo e sem acento"}
+  - name: dim_agencia
+    description: >
+      Dimensao de agencia (orgao) que registrou a ocorrencia. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: agencia_id, description: Id sequencial estavel (chave substituta)}
+      - {name: agencia, description: "Valor em texto (agencia (orgao) que registrou a ocorrencia), maiusculo e sem acento"}
+  - name: dim_unidade
+    description: >
+      Dimensao de unidade policial de registro. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: unidade_id, description: Id sequencial estavel (chave substituta)}
+      - {name: unidade, description: "Valor em texto (unidade policial de registro), maiusculo e sem acento"}
+  - name: dim_unidade_origem_pc
+    description: >
+      Dimensao de unidade de origem na Policia Civil. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: unidade_origem_pc_id, description: Id sequencial estavel (chave substituta)}
+      - {name: unidade_origem_pc, description: "Valor em texto (unidade de origem na Policia Civil), maiusculo e sem acento"}
+  - name: dim_uf
+    description: >
+      Dimensao de unidade da federacao. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: uf_id, description: Id sequencial estavel (chave substituta)}
+      - {name: uf, description: "Valor em texto (unidade da federacao), maiusculo e sem acento"}
+  - name: dim_municipio
+    description: >
+      Dimensao de municipio do fato. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: municipio_id, description: Id sequencial estavel (chave substituta)}
+      - {name: municipio, description: "Valor em texto (municipio do fato), maiusculo e sem acento"}
+  - name: dim_bairro
+    description: >
+      Dimensao de bairro do fato. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: bairro_id, description: Id sequencial estavel (chave substituta)}
+      - {name: bairro, description: "Valor em texto (bairro do fato), maiusculo e sem acento"}
+  - name: dim_logradouro
+    description: >
+      Dimensao de logradouro (rua/avenida) do fato. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: logradouro_id, description: Id sequencial estavel (chave substituta)}
+      - {name: logradouro, description: "Valor em texto (logradouro (rua/avenida) do fato), maiusculo e sem acento"}
+  - name: dim_tipo_de_local
+    description: >
+      Dimensao de tipo de local onde ocorreu o fato. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: tipo_de_local_id, description: Id sequencial estavel (chave substituta)}
+      - {name: tipo_de_local, description: "Valor em texto (tipo de local onde ocorreu o fato), maiusculo e sem acento"}
+  - name: dim_cor
+    description: >
+      Dimensao de cor/raca da vitima. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: cor_id, description: Id sequencial estavel (chave substituta)}
+      - {name: cor, description: "Valor em texto (cor/raca da vitima), maiusculo e sem acento"}
+  - name: dim_meios
+    description: >
+      Dimensao de meio empregado no crime. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: meios_id, description: Id sequencial estavel (chave substituta)}
+      - {name: meios, description: "Valor em texto (meio empregado no crime), maiusculo e sem acento"}
+  - name: dim_sexo
+    description: >
+      Dimensao de sexo da vitima. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: sexo_id, description: Id sequencial estavel (chave substituta)}
+      - {name: sexo, description: "Valor em texto (sexo da vitima), maiusculo e sem acento"}
+  - name: dim_orientacao_sexual
+    description: >
+      Dimensao de orientacao sexual da vitima. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: orientacao_sexual_id, description: Id sequencial estavel (chave substituta)}
+      - {name: orientacao_sexual, description: "Valor em texto (orientacao sexual da vitima), maiusculo e sem acento"}
+  - name: dim_tipo_objeto
+    description: >
+      Dimensao de tipo do objeto envolvido. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: tipo_objeto_id, description: Id sequencial estavel (chave substituta)}
+      - {name: tipo_objeto, description: "Valor em texto (tipo do objeto envolvido), maiusculo e sem acento"}
+  - name: dim_acao_objeto
+    description: >
+      Dimensao de acao sofrida pelo objeto (roubado, furtado...). Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: acao_objeto_id, description: Id sequencial estavel (chave substituta)}
+      - {name: acao_objeto, description: "Valor em texto (acao sofrida pelo objeto (roubado, furtado...)), maiusculo e sem acento"}
+  - name: dim_tipo
+    description: >
+      Dimensao de tipo (campo generico da origem). Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: tipo_id, description: Id sequencial estavel (chave substituta)}
+      - {name: tipo, description: "Valor em texto (tipo (campo generico da origem)), maiusculo e sem acento"}
+  - name: dim_marca
+    description: >
+      Dimensao de marca do objeto/veiculo. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: marca_id, description: Id sequencial estavel (chave substituta)}
+      - {name: marca, description: "Valor em texto (marca do objeto/veiculo), maiusculo e sem acento"}
+  - name: dim_modelo
+    description: >
+      Dimensao de modelo do objeto/veiculo. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: modelo_id, description: Id sequencial estavel (chave substituta)}
+      - {name: modelo, description: "Valor em texto (modelo do objeto/veiculo), maiusculo e sem acento"}
+  - name: dim_cor_veiculo
+    description: >
+      Dimensao de cor do veiculo. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: cor_veiculo_id, description: Id sequencial estavel (chave substituta)}
+      - {name: cor_veiculo, description: "Valor em texto (cor do veiculo), maiusculo e sem acento"}
+  - name: dim_utilidade_do_veiculo
+    description: >
+      Dimensao de utilidade do veiculo (particular, carga...). Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: utilidade_do_veiculo_id, description: Id sequencial estavel (chave substituta)}
+      - {name: utilidade_do_veiculo, description: "Valor em texto (utilidade do veiculo (particular, carga...)), maiusculo e sem acento"}
+  - name: dim_tipo_crime
+    description: >
+      Dimensao de categoria do crime, vinda do titulo do dataset de origem. Incremental: o id nunca e reatribuido; valores novos
+      recebem o proximo numero disponivel.
+    columns:
+      - {name: tipo_crime_id, description: Id sequencial estavel (chave substituta)}
+      - {name: tipo_crime, description: "Valor em texto (categoria do crime, vinda do titulo do dataset de origem), maiusculo e sem acento"}
+  - name: dim_incidente
+    description: >
+      Dimensao de incidente. Diferente das demais NAO e incremental: os codigos ja vem da
+      origem como identificadores proprios, entao a tabela e reconstruida a cada execucao.
+    columns:
+      - {name: cod_incidente, description: Codigo do incidente (vem da origem)}
+      - {name: tipo_de_incidente, description: Descricao do tipo de incidente}
+      - {name: cod_grupo_incidente, description: Codigo do grupo do incidente (vem da origem)}
+      - {name: grupo_de_incidente, description: Descricao do grupo do incidente}

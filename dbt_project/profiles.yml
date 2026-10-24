@@ -3,5 +3,7 @@ crime_dw:
   outputs:
     dev:
       type: duckdb
-      path: ../data/work/warehouse.duckdb
+      # DUCKDB_PATH so existe para os testes automatizados nao mexerem no seu warehouse
+      # real; no uso normal vale o caminho padrao abaixo.
+      path: "{{ env_var('DUCKDB_PATH', '../data/work/warehouse.duckdb') }}"
       threads: 1

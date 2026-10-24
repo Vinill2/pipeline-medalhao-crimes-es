@@ -1,0 +1,38 @@
+name: CI
+
+# Valida o codigo a cada Pull Request (e a cada push no main). Nao usa Azure nem segredos:
+# tudo roda com dados ficticios, entao e seguro e rapido (~2 min).
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# se voce empurrar outro commit no mesmo PR, cancela a execucao antiga
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:                      # este nome e o que voce seleciona como "check obrigatorio" no GitHub
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v6
+
+      - name: Instalar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements*.txt
+
+      - name: Instalar dependencias
+        run: pip install -r requirements-dev.txt
+
+      # unitarios (decisao de atualizacao, limpeza, etc.) + dbt de verdade sobre dados ficticios
+      - name: Rodar testes
+        run: python -m pytest -v
