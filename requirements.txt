@@ -6,7 +6,7 @@ requests==2.33.1
 beautifulsoup4==4.14.3
 setuptools==68.1.2
 duckdb==2.0.0
-dbt-core==1.7.20
-dbt-duckdb==1.7.5
+dbt-core==1.12.6
+dbt-duckdb==1.11.0
 azure-storage-blob==12.31.0
 python-dotenv==1.2.2
