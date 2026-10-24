@@ -4,7 +4,7 @@ pandas==3.0.2
 pyarrow==26.0.0
 requests==2.33.1
 beautifulsoup4==4.14.3
-setuptools==68.1.2
+setuptools==84.2.1
 duckdb==2.0.0
 dbt-core==1.7.20
 dbt-duckdb==1.7.5
